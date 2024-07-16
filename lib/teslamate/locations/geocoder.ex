@@ -2,11 +2,10 @@ defmodule TeslaMate.Locations.Geocoder do
   use Tesla, only: [:get]
 
   @version Mix.Project.config()[:version]
-  @nominatim_url Application.get_env(:teslamate, :nominatim_api)
 
   adapter Tesla.Adapter.Finch, name: TeslaMate.HTTP, receive_timeout: 30_000
 
-  plug Tesla.Middleware.BaseUrl, @nominatim_url
+  plug Tesla.Middleware.BaseUrl, Application.get_env(:teslamate, :nominatim_api)
   plug Tesla.Middleware.Headers, [{"user-agent", "TeslaMate/#{@version}"}]
   plug Tesla.Middleware.JSON
   plug Tesla.Middleware.Logger, debug: true, log_level: &log_level/1
