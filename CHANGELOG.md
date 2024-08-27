@@ -14,12 +14,17 @@
 - chore: correct comment for pinned Docker login-action to version 3.2.0 (#4120 - @JakobLichterfeld)
 - build(deps): bump erlef/setup-beam from 1.18.0 to 1.18.1 (#4116)
 - build(deps): bump docker/login-action from 3.2.0 to 3.3.0 (#4115)
+- chore: update PostgreSQL to version 16 in flake.nix (#4135- @JakobLichterfeld)
 
 #### Dashboards
 
 - Improve Battery Health dashboard estimations on rated range (#4074 - @jheredianet)
 - Update charges.json: range added per hour (#4089 - @DrMichael)
 - small visual distinguish between AC & DC charging in charges dashboard and unification of the DC coloring in all dashboards (#4124 - @stauffenberg2020)
+- Improve drive stats (#4148 - @jheredianet)
+- Improve drives dashboard (#4146 - @jheredianet)
+- Odometer in charges (#4144 - @jheredianet)
+- Update charging-stats for handling suc cost mixed with AC charge on TWC (#4137 - @cyberden)
 
 #### Translations
 
@@ -30,6 +35,7 @@
 - doc: Add initial author and list of contributors to README.md (#4084 - @JakobLichterfeld)
 - doc: add steps to the guide regarding how to switch to Fleet API (#4103 - @yangiak)
 - doc: align TPMS Pressure naming in sensor config to match ui config for home assistant (#4104 - @helmo)
+- doc: Update screenshots and rearrange links (#4151 - @jheredianet)
 
 ## [1.30.1] - 2024-07-10
 
@@ -324,7 +330,7 @@ same as 1.29.0 but reverted: "Dynamic endpoints and token to use official Tesla 
 
 #### Translations
 
-- fix: translation Update default.po for simplified chinese (#3600 - @ycjcl868)
+- fix: translation Update default.po for simplified Chinese (#3600 - @ycjcl868)
 - Improvements for Spanish translations (#3610 - @jheredianet)
 
 #### Documentation
@@ -524,7 +530,7 @@ Note: TeslaMate moved to the new @teslamate-org organization.
 
 To ensure that the Tesla API tokens are stored securely, **an encryption key must be provided via the `ENCRYPTION_KEY` environment variable**.
 
-If you use a `docker-compose.yml` file to run TeslaMate, add a line with the `ENCRYPTION_KEY` to the `environment` section or check out the updated installation guiddes on [docs.teslamate.org](https://docs.teslamate.org):
+If you use a `docker-compose.yml` file to run TeslaMate, add a line with the `ENCRYPTION_KEY` to the `environment` section or check out the updated installation guides on [docs.teslamate.org](https://docs.teslamate.org):
 
 ```yaml
 services:
@@ -570,7 +576,7 @@ If no `ENCRYPTION_KEY` environment variable is provided when running the databas
 
 #### Translations
 
-- Update Chinse translation (#2479 - @AemonCao)
+- Update Chinese translation (#2479 - @AemonCao)
 - Add missing Swedish translation (#2731 - @tobiasehlert)
 
 #### Documentation
