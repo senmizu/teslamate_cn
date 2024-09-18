@@ -15,6 +15,14 @@
 - build(deps): bump erlef/setup-beam from 1.18.0 to 1.18.1 (#4116)
 - build(deps): bump docker/login-action from 3.2.0 to 3.3.0 (#4115)
 - chore: update PostgreSQL to version 16 in flake.nix (#4135- @JakobLichterfeld)
+- build(deps): bump webpack from 5.92.1 to 5.94.0 in /website (#4171)
+- build(deps): bump micromatch from 4.0.5 to 4.0.8 in /website (#4174)
+- chore: Update tzdata to version 1.1.2 and mimerl to version 1.3.0 (#4205 - @JakobLichterfeld)
+- build(deps): bump send and express in /website (#4203)
+- ci: enable dependabot for mix and npm (#4207 - @JakobLichterfeld)
+- build(deps): bump @docusaurus/preset-classic from 3.4.0 to 3.5.2 in /website (#4210)
+- build(deps): bump phoenix_ecto from 4.4.3 to 4.6.2 (#4213)
+- build(deps): bump jason from 1.4.1 to 1.4.4 (#4216)
 
 #### Dashboards
 
@@ -25,6 +33,11 @@
 - Improve drives dashboard (#4146 - @jheredianet)
 - Odometer in charges (#4144 - @jheredianet)
 - Update charging-stats for handling suc cost mixed with AC charge on TWC (#4137 - @cyberden)
+- Fix the issue of failing to restore efficiency dashboard (#4153 - @ghostiee)
+- Improve rounding to month / weeks / days in Updates "Since Previous Update" column (#4164 - @swiffer)
+- feat: Improve cost filter on Charges dashboard to show charges with negative cost as well (#4179 - @jheredianet)
+- feat: display vehicle VIN as a fallback for vehicle name on grafana dashboards (#4198 - @arcastro)
+- feat: Add Moving Average / Percentiles to Charge Level dashboard & bucket data to support longer periods (#4200 - @swiffer)
 
 #### Translations
 
@@ -36,6 +49,8 @@
 - doc: add steps to the guide regarding how to switch to Fleet API (#4103 - @yangiak)
 - doc: align TPMS Pressure naming in sensor config to match ui config for home assistant (#4104 - @helmo)
 - doc: Update screenshots and rearrange links (#4151 - @jheredianet)
+- doc: fix markdownlint warnings in fleet api documentation (#4173 - @JakobLichterfeld)
+- doc: clarify using fleet api has lots of drawbacks (#4173 - @JakobLichterfeld)
 
 ## [1.30.1] - 2024-07-10
 
