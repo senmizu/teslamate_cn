@@ -1378,10 +1378,12 @@
       "maxDataPoints": 1,
       "options": {
         "basemap": {
-          "config": {},
+          "config": {
+            "url": "https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+          },
           "name": "Layer 0",
           "tooltip": true,
-          "type": "osm-standard"
+          "type": "xyz"
         },
         "controls": {
           "mouseWheelZoom": true,

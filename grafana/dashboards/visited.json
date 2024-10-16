@@ -130,10 +130,10 @@
       "options": {
         "basemap": {
           "config": {
-            "server": "streets"
+            "url": "https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
           },
           "name": "Layer 0",
-          "type": "esri-xyz"
+          "type": "xyz"
         },
         "controls": {
           "mouseWheelZoom": true,
