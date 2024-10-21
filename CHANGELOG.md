@@ -6,11 +6,12 @@
 
 ### Improvements and bug fixes
 
-- Fix 401 on direct Fleet API calls (#4095 - @jlestel)
+- fix: 401 on direct Fleet API calls (#4095 - @jlestel)
 - feat: PostgreSQL 17 (#4231 - @swiffer)
 - fix: add nix module option to specify postgres package (#4227 - @brianmay)
 - perf: limit positions to set elevation for to last 10 days (#4228 - @swiffer)
 - feat: add treefmt-nix to nix flake (#4219 - @JakobLichterfeld)
+- feat: use Grafana 11.0.6-security-01 (#4279 - @swiffer)
 
 #### Build, CI, internal
 
@@ -42,7 +43,13 @@
 - ci: remove branch restriction for check_paths workflow to increase sec (#4219 - @JakobLichterfeld)
 - build(deps): bump actions/checkout from 4.1.7 to 4.2.1 (#4262)
 - ci(fix): only run ghcr build in DevOps workflow on own repo ([022b173](https://github.com/teslamate-org/teslamate/commit/022b173430221d385479f4ec9d91d8ccffbfe7b9) - @JakobLichterfeld)
-- ci: pin ubuntu-24.04 as runner os ([40dab3e](https://github.com/teslamate-org/teslamate/commit/40dab3e2a978b8a867f1159626d4c157ccab6c56) - @JakobLichterfeld)
+- ci: pin ubuntu-24.04 as runner OS ([40dab3e](https://github.com/teslamate-org/teslamate/commit/40dab3e2a978b8a867f1159626d4c157ccab6c56) - @JakobLichterfeld)
+- ci: cleanup caches when pr is closed ([75cfc7c](https://github.com/teslamate-org/teslamate/commit/75cfc7cdd4b8f83f247211dc7fc5c5cd433bf746) - @JakobLichterfeld)
+- ci(fix): run ghcr build in DevOps workflow for forks ([688147e](https://github.com/teslamate-org/teslamate/commit/688147e2cf3fb5b55e702185a97a4a4ebb14d7ca) - @JakobLichterfeld)
+- ci(fix): correct syntax in ghcr_build workflow for workflow_call ([9e6a275](https://github.com/teslamate-org/teslamate/commit/9e6a2758d5ff21604976184ad69befc1c546e600) - @JakobLichterfeld)
+- ci(fix): run ghcr build as separate workflow to fix permission issues with forks ([0410593](https://github.com/teslamate-org/teslamate/commit/0410593850cde00e8f201a9b7d6009f0581ed43c) - @JakobLichterfeld)
+- build(deps-dev): bump credo from 1.7.1 to 1.7.8 (#4238)
+- build(deps): bump crate-ci/typos from 1.22.9 to 1.26.0 (#4261)
 
 #### Dashboards
 
@@ -61,6 +68,10 @@
 - increase max battery charge gauge threshold to 101 in case of LFP (#4191 - @neothematrix)
 - multiple cars, same name, add vin next to name (#4230 - @swiffer)
 - json_build_object instead of concat in battery-health (#4229 - @swiffer)
+- perf: fix skipping streaming data in charging stats (#4252 - @swiffer)
+- perf: improvements drive stats (#4258 - @swiffer)
+- fix: for drives not showing if duration < 1 minute (#4284 - @swiffer)
+- feat: add max speed in drives dashboard (#4284 / #4267 - @js94x)
 
 #### Translations
 
@@ -74,6 +85,8 @@
 - doc: Update screenshots and rearrange links (#4151 - @jheredianet)
 - doc: fix markdownlint warnings in fleet api documentation (#4173 - @JakobLichterfeld)
 - doc: clarify using fleet api has lots of drawbacks (#4173 - @JakobLichterfeld)
+- docs: fix Home Assistant MQTT sensor JSON templates warnings (#4257 - @longzheng)
+- docs: add recommended RAM size (#4278 - @JakobLichterfeld)
 
 ## [1.30.1] - 2024-07-10
 
