@@ -10,9 +10,16 @@
 
 #### Dashboards
 
+- perf: add ideal_battery_range_km as query condition (#4305 - @swiffer)
+- fix: re-add missing changes from pr 4124 (#4310 - @swiffer)
+
 #### Translations
 
+- Update default.po for thai (#4312 - @tomzt)
+
 #### Documentation
+
+- docs: fix ghcr image path in contributing guide (#4309 - @swiffer)
 
 ## [1.31.0] - 2024-10-27
 
