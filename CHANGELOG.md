@@ -2,11 +2,15 @@
 
 ## [unreleased]
 
+As always, there are many improvements. The focus has been on quality of life improvements and standardization across all dashboards. Enjoy it.
+
 ### New features
 
 ### Improvements and bug fixes
 
 - feat: use Grafana 11.2.3 (#4338 - @swiffer)
+- feat: Update marketing name to recognize Model S LR+ (#4370 - @cwanja)
+- fix(nix): bump hash for dependencies (#4371 - @brianmay)
 
 #### Build, CI, internal
 
@@ -16,6 +20,12 @@
 - build(deps): bump cachix/install-nix-action from 27 to 30 (#4342)
 - build(deps): bump tesla from 1.12.1 to 1.13.0 (#4335)
 - build(deps): bump floki from 0.36.2 to 0.36.3 (#4336)
+- feat: add CONTRIBUTING file to exclusion lists for treefmt (#4359 - @JakobLichterfeld)
+- ci: create PR to update flake.lock every saturday (#4372 - @brianmay)
+- ci(fix): correct permissions for flake.lock updates ([c673ef3](https://github.com/teslamate-org/teslamate/commit/c673ef363ba73ad076680d71ef54bd549582d41f)- @JakobLichterfeld)
+- ci: update flake.lock workflow with appropriate labels for created pr's ([54c41c1](https://github.com/teslamate-org/teslamate/commit/54c41c1fe66664b62d817502d1b2bdb244b70dc2) - @JakobLichterfeld)
+- build(deps): bump cross-spawn from 7.0.3 to 7.0.6 in /website (#4391)
+- build(deps): bump crate-ci/typos from 1.26.0 to 1.27.0 (#4344)
 
 #### Dashboards
 
@@ -24,12 +34,18 @@
 - perf: speed up queries used to calculate max speed in drive stats dashboard (#4338 - @swiffer)
 - feat: add a welcome dashboard (#4338 - @swiffer)
 - fix: Charges Dashboard -> Range added renamed to Ø Charge rate (#4349 - @swiffer)
+- fix: Axis Labels for XY Chart in Battery Health and reduces Query count in Visited (#4364 - @swiffer)
+- feat: Dashboard refinements and standardization (#4367 - @swiffer)
+- feat: add Detailed Energy Use to drive-details (#4386 - @jameskitt616)
 
 #### Translations
 
 #### Documentation
 
 docs: add contributing guidelines link for GitHub (#4345 - @JakobLichterfeld)
+docs: update Home Assistant integration documentation with configuration URL and model name hints (#4359 - @JakobLichterfeld)
+docs: Remove availability from Home Assistant MQTT sensors, as it can be misleading and prevent sensors from receiving updated values (#4362 - @longzheng)
+docs: Introducing TeslaMate Guru on Gurubase.io (#4390 - @kursataktas)
 
 ## [1.31.1] - 2024-10-29
 
