@@ -165,7 +165,7 @@
       "options": {
         "basemap": {
           "config": {
-            "url": "https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+            "url": "https://tile.openstreetmap.jp/styles/openmaptiles/512/{z}/{x}/{y}.png"
           },
           "name": "Layer 0",
           "type": "xyz"
