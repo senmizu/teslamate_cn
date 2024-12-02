@@ -130,7 +130,7 @@
       "options": {
         "basemap": {
           "config": {
-            "url": "https://tile.openstreetmap.jp/styles/openmaptiles/{z}/{x}/{y}.png"
+            "url": "${MAPTILE_API}"
           },
           "name": "Layer 0",
           "type": "xyz"

@@ -24,8 +24,13 @@ COPY apple-touch-icon.png /usr/share/grafana/public/img/apple-touch-icon.png
 
 COPY datasource.yml /etc/grafana/provisioning/datasources/
 COPY dashboards.yml /etc/grafana/provisioning/dashboards/
-COPY dashboards/internal/*.json /dashboards_internal/
-COPY dashboards/reports/*.json /dashboards_reports/
-COPY dashboards/*.json /dashboards/
+COPY --chown=grafana:grafana dashboards/internal/*.json /dashboards_internal/
+COPY --chown=grafana:grafana dashboards/reports/*.json /dashboards_reports/
+COPY --chown=grafana:grafana dashboards/*.json /dashboards/
+COPY entrypoint.sh /entrypoint.sh
+
+ENV MAPTILE_API="https://tile.openstreetmap.jp/styles/openmaptiles/{z}/{x}/{y}.png"
 
 EXPOSE 3000
+
+ENTRYPOINT ["/entrypoint.sh"]

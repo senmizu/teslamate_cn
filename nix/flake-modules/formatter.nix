@@ -45,6 +45,8 @@
           ".github/workflows/ghcr_build.yml"
           "assets/js/hooks.js"
           "grafana/dashboards/*.json" # we use the grafana export style
+          "grafana/entrypoint.sh"
+          "grafana/Dockerfile"
         ];
         programs.mix-format.enable = true;
         settings.formatter.mix-format.includes = [
