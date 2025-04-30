@@ -2,17 +2,49 @@
 
 ## [unreleased]
 
+### New features
+
+### Improvements and bug fixes
+
+#### Build, CI, internal
+
+#### Dashboards
+
+- fix: new image on home dashboard as old got removed from Tesla mediaserver (#4702 - @JakobLichterfeld, @swiffer)
+
+#### Translations
+
+#### Documentation
+
+## [2.0.0] - 2025-04-26
+
+**This is a breaking change release:** TeslaMate uses PostgreSQL as database, this is an external dependency and needs to be updated by yourself. We now require PostgreSQL 16.7 or 17.3 or higher as we are upgrading the bundled earthdistance extension to v1.2. TeslaMate will now fail to start if you are using an older version. Ensure to upgrade your database before upgrading TeslaMate. To upgrade PostgreSQL, you need to follow these instructions:
+
+- [Backup your data](https://docs.teslamate.org/docs/maintenance/backup_restore#backup)
+- [Upgrade PostgreSQL to postgres:17](https://docs.teslamate.org/docs/maintenance/upgrading_postgres) (Yes, you will have to erase your data, which is why you need your backup in the first place.)
+- [Upgrade TeslaMate to this version](https://docs.teslamate.org/docs/upgrading)
+- [Backup your data after the upgrade](https://docs.teslamate.org/docs/maintenance/backup_restore#backup)
+
+**Note for user which revoked permissions:** If the SUPERUSER privilege has been revoked after the initial (manual) installation, it must be temporarily granted for pending earthdistance migrations to succeed. The privilege can then be safely revoked.
+
+As always, there are also many improvements. The webview now shows the TPMS values in the low pressure tooltip. We use the latest Grafana 11.6.1 and have improved the battery health dashboard and aligned the range calculation through the dashboards. Additionally time zone handling has been improved and the date formats are now based on the browser locale.
+
+Enjoy it.
+
+**Note for contributors:** The default branch was renamed to `main`. Please update your local repository accordingly (see GitHub hint when visiting [teslamate-org/teslamate](https://github.com/teslamate-org/teslamate) or [GitHub documentation](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch#updating-a-local-clone-after-a-branch-name-changes) for more information).
+
 ### Breaking Changes
 
 - feat: check Postgres version on startup, require 16.7 / 17.3, update earthdistance extension (#4648 - @swiffer)
 
 ### New features
 
-- feat:show tpms value to the low pressure tooltip in webview (#4654 -@NirKli)
+- feat: show tpms value to the low pressure tooltip in webview (#4654 - @NirKli)
 
 ### Improvements and bug fixes
 
 - fix(nix): non-recursive provider for ../grafana/dashboards (#4680 - @swiffer)
+- feat: use Grafana 11.6.1 (#4662 - @swiffer)
 
 #### Build, CI, internal
 
@@ -38,6 +70,12 @@
 - build(deps): bump react from 18.3.1 to 19.1.0 and docusaurus/core from 3.4.0 to 3.7.0 in /website (#4618 - @JakobLichterfeld)
 - build(deps): bump phoenix_ecto from 4.6.2 to 4.6.3 (#4333)
 - build(deps): update flake.lock (#4674)
+- fix(nix): update mix dependency hash in nix builds (#4695 - @JakobLichterfeld)
+- chore: rename branch to main (#4700 - @JakobLichterfeld and @adriankumpf)
+- build(deps-dev): bump phoenix_live_reload from 1.5.3 to 1.6.0 (#4699)
+- build(deps): bump tortoise311 from 0.12.0 to 0.12.1 (#4698)
+- build(deps): bump nix-community/cache-nix-action from 6.1.2 to 6.1.3 (#4696)
+- build(deps): bump floki from 0.36.3 to 0.37.1 (#4697)
 
 #### Dashboards
 
@@ -46,6 +84,8 @@
 - fix: use same rated range calculation in updates dashboard as in battery health dashboard (#4682 - @swiffer)
 - fix: explicitly set height of home dashboard background image based on current layout & grafana css (#4681 -@swiffer)
 - fix: set $\_\_timezone explicitly in dashboards to ensure truncation is done with respect to the Grafana timezone (#4684 - @swiffer)
+- fix: issues when using browser locale for date formats (#4662 - @swiffer)
+- fix: widens Date Columns to fully show date strings formatted in US locale (#4662 - @swiffer)
 
 #### Translations
 
@@ -53,6 +93,7 @@
 
 - chore(issue-template): add PostgreSQL version input and checkbox for latest version check in bug report template (#4643 - @JakobLichterfeld)
 - docs: allow to add energy added to the Home Assistant's Energy tab to measure how much energy each session uses (#4659 - @alexsapran)
+- docs: update changelog with breaking changes description (#4691 - @JakobLichterfeld)
 
 ## [1.33.0] - 2025-03-28
 
@@ -2390,7 +2431,8 @@ New users need to sign in via the web interface.
 
 ## [1.0.0] - 2019-07-25
 
-[unreleased]: https://github.com/teslamate-org/teslamate/compare/v1.33.0...HEAD
+[unreleased]: https://github.com/teslamate-org/teslamate/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/teslamate-org/teslamate/compare/v1.33.0...v2.0.0
 [1.33.0]: https://github.com/teslamate-org/teslamate/compare/v1.32.0...v1.33.0
 [1.32.0]: https://github.com/teslamate-org/teslamate/compare/v1.31.1...v1.32.0
 [1.31.1]: https://github.com/teslamate-org/teslamate/compare/v1.31.0...v1.31.1
