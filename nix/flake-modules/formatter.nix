@@ -44,6 +44,7 @@
           "treefmt.toml"
           "assets/js/hooks.js"
           "README.md"
+          ".github/workflows/ghcr_build_manual.yml"
           "grafana/dashboards/*.json" # we use the grafana export style
         ];
         programs.mix-format.enable = true;
