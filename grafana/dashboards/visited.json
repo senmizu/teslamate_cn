@@ -106,49 +106,6 @@
         "layers": [
           {
             "config": {
-              "showLegend": false,
-              "style": {
-                "color": {
-                  "fixed": "transparent"
-                },
-                "opacity": 0,
-                "rotation": {
-                  "fixed": 0,
-                  "max": 360,
-                  "min": -360,
-                  "mode": "mod"
-                },
-                "size": {
-                  "fixed": 3,
-                  "max": 15,
-                  "min": 2
-                },
-                "symbol": {
-                  "fixed": "img/icons/marker/circle.svg",
-                  "mode": "fixed"
-                },
-                "symbolAlign": {
-                  "horizontal": "center",
-                  "vertical": "center"
-                },
-                "textConfig": {
-                  "fontSize": 12,
-                  "offsetX": 0,
-                  "offsetY": 0,
-                  "textAlign": "center",
-                  "textBaseline": "middle"
-                }
-              }
-            },
-            "location": {
-              "mode": "auto"
-            },
-            "name": "Workaround for Grafana Issue #89777, fixed in 11.6.0 via #101391, extra layer to be removed on broad availability of 11.6.0",
-            "tooltip": false,
-            "type": "markers"
-          },
-          {
-            "config": {
               "arrow": 0,
               "style": {
                 "color": {
@@ -205,7 +162,7 @@
           "zoom": 15
         }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1+security-01",
       "targets": [
         {
           "datasource": {
@@ -286,7 +243,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginversion": "12.0.0",
+      "pluginVersion": "12.0.1+security-01",
       "targets": [
         {
           "datasource": {
@@ -336,7 +293,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-yellow"
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -390,11 +351,6 @@
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ]
-        },
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "vertical",
@@ -404,13 +360,13 @@
             "mean"
           ],
           "fields": "",
-          "values": true
+          "values": false
         },
         "showPercentChange": false,
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginversion": "12.0.0",
+      "pluginVersion": "12.0.1+security-01",
       "targets": [
         {
           "datasource": {
@@ -453,22 +409,16 @@
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#c7d0d9"
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -485,11 +435,6 @@
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
@@ -499,13 +444,13 @@
             "lastNotNull"
           ],
           "fields": "",
-          "values": true
+          "values": false
         },
         "showPercentChange": false,
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginversion": "12.0.0",
+      "pluginVersion": "12.0.1+security-01",
       "targets": [
         {
           "datasource": {
