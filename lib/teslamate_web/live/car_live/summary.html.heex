@@ -91,6 +91,15 @@
             <span class="mdi mdi-power-plug"></span>
           </span>
         <% end %>
+        <%= unless is_nil(@summary.latitude) or is_nil(@summary.longitude) do %>
+          <%= link to: "https://www.google.com/maps?q=#{@summary.latitude},#{@summary.longitude}",
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  class: "icon has-text-grey-dark has-tooltip-top has-tooltip-left-mobile",
+                  data: [tooltip: gettext("car location on Google Maps")] do %>
+            <span class="mdi mdi-map-marker"></span>
+          <% end %>
+        <% end %>
         <%= if @summary.windows_open do %>
           <span
             class="icon has-text-grey-dark has-tooltip-top has-tooltip-left-mobile"
