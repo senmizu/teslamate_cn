@@ -519,8 +519,24 @@
             "mode": "absolute",
             "steps": [
               {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "dark-orange",
+                "value": 10
+              },
+              {
+                "color": "dark-yellow",
+                "value": 30
+              },
+              {
                 "color": "green",
-                "value": 0
+                "value": 50
+              },
+              {
+                "color": "dark-green",
+                "value": 70
               }
             ]
           }
@@ -539,7 +555,7 @@
         "basemap": {
           "config": {},
           "name": "Layer 0",
-          "type": "osm-standard"
+          "type": "default"
         },
         "controls": {
           "mouseWheelZoom": true,
@@ -555,7 +571,7 @@
               "arrow": 0,
               "style": {
                 "color": {
-                  "fixed": "dark-blue"
+                  "field": "speed_kmh"
                 },
                 "lineWidth": 2,
                 "opacity": 1,
@@ -618,7 +634,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT\n  $__time(date),\n  latitude,\n  longitude\nFROM positions\nWHERE \n  car_id = $car_id AND \n  $__timeFilter(date)\nORDER BY \n  date ASC",
+          "rawSql": "SELECT\n  $__time(date),\n  convert_km(speed::numeric, '$length_unit') AS speed_${length_unit}h,\n  latitude,\n  longitude\nFROM positions\nWHERE \n  car_id = $car_id AND \n  $__timeFilter(date)\nORDER BY \n  date ASC",
           "refId": "A",
           "sql": {
             "columns": [
