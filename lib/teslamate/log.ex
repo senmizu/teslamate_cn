@@ -187,14 +187,24 @@ defmodule TeslaMate.Log do
 
     non_streamed_drives =
       Repo.all(
-        from p in Position,
-          select: p.drive_id,
-          inner_join: d in assoc(p, :drive),
-          where: d.start_date > ^naive_date_earliest and p.id > ^min_id,
-          having:
-            count()
-            |> filter(not is_nil(p.odometer) and is_nil(p.ideal_battery_range_km)) == 0,
-          group_by: p.drive_id
+        from(d in Drive,
+          as: :d,
+          where:
+            d.start_date > ^naive_date_earliest and
+              exists(
+                from(p in Position,
+                  where: p.drive_id == parent_as(:d).id and p.id > ^min_id
+                )
+              ) and
+              not exists(
+                from(p in Position,
+                  where:
+                    p.drive_id == parent_as(:d).id and p.id > ^min_id and
+                      not is_nil(p.odometer) and is_nil(p.ideal_battery_range_km)
+                )
+              ),
+          select: d.id
+        )
       )
 
     Position
@@ -291,6 +301,8 @@ defmodule TeslaMate.Log do
             not is_nil(p.odometer),
         limit: 1
 
+    # If the sum of elevation gains exceeds the max value of a smallint (32767), set it to 0.
+    # If the sum of elevation losses exceeds the max value of a smallint (32767), set it to 0.
     elevation_data =
       from p1 in subquery(
              from p in Position,
@@ -301,20 +313,16 @@ defmodule TeslaMate.Log do
            ),
            select: %{
              elevation_gains:
-               sum(
-                 fragment(
-                   "CASE WHEN ? > 0 THEN ? ELSE 0 END",
-                   p1.elevation_diff,
-                   p1.elevation_diff
-                 )
+               fragment(
+                 "COALESCE(NULLIF(LEAST(SUM(CASE WHEN ? > 0 THEN ? ELSE 0 END), 32768), 32768), 0)",
+                 p1.elevation_diff,
+                 p1.elevation_diff
                ),
              elevation_losses:
-               sum(
-                 fragment(
-                   "CASE WHEN ? < 0 THEN ABS(?) ELSE 0 END",
-                   p1.elevation_diff,
-                   p1.elevation_diff
-                 )
+               fragment(
+                 "COALESCE(NULLIF(LEAST(SUM(CASE WHEN ? < 0 THEN ABS(?) ELSE 0 END), 32768), 32768), 0)",
+                 p1.elevation_diff,
+                 p1.elevation_diff
                )
            }
 
