@@ -13,7 +13,7 @@ A powerful, self-hosted data logger for your Tesla.
 - Written in **[Elixir](https://elixir-lang.org/)**
 - Data is stored in a **Postgres** database
 - Visualization and data analysis with **Grafana**
-- Vehicle data is published to a local **MQTT** Broker
+- Vehicle data is published to a local **[MQTT](https://en.wikipedia.org/wiki/MQTT)** Broker
 
 # 本项目属于中国区DIY版本
 更适合中国宝宝的配方！定期rebase官方新版本。  

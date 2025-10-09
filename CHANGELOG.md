@@ -4,6 +4,55 @@
 
 ### New features
 
+### Improvements and bug fixes
+
+- sec: set tokens to private schema (#4968 -@brianmay)
+- build(deps): use elixir 1.18.4, node 22 & debian trixie (#4889 - @swiffer)
+- fix: allow using different PostgreSQL port than default when using socket_dir connection (#4979 - @jaypark0006)
+- perf: use anti join for short-circuit evaluation when getting non streamed drives (#4990 - @swiffer)
+
+#### Build, CI, internal
+
+- build(deps): update flake.lock (#4911)
+- build(deps): bump @docusaurus/core from 3.8.1 to 3.9.1, @docusaurus/preset-classic from 3.8.1 to 3.9.1, bump dependencies in /website (#4977 - @JakobLichterfeld)
+- build(deps): bump actions/checkout from 4.2.2 to 5.0.0 (#4933)
+- build(deps): bump actions/cache from 4.2.3 to 4.3.0 (#4972)
+- build(deps): bump nixbuild/nix-quick-install-action from 32 to 34 (#4974)
+- build(deps): bump docker/login-action from 3.4.0 to 3.6.0 (#4975)
+- build(deps): bump crate-ci/typos from 1.34.0 to 1.37.0 (#4976)
+- build(deps): bump finch from 0.19.0 to 0.20.0 (#4929)
+- build(deps): update flake.lock (#4991)
+
+#### Dashboards
+
+- fix: charging stats now correctly calculate cost when set to miles (#4983 - @DrMichael)
+- perf: Optimize Grafana query for trip view to leverage indexes more effectively (#4964 - @jaypark0006)
+- feat: add shared buffers size to db info dashboard (#4989 - @swiffer)
+- fix: cast to numeric instead of integer when converting from km to miles to avoid rounding issues in all dashboards (#4986 - @swiffer)
+- fix: correctly determine charging phases in charge detail dashboard (#4988 - @swiffer)
+
+#### Translations
+
+- i18n: add spanish car location translation (#4892 - @jpizquierdo)
+- i18n: add missing italian translations, correct the gender of some words and use more uniform translations (#4920 - @giovaorama)
+- i18n: add thai car location translation (#4956 - @tomzt)
+
+#### Documentation
+
+- docs: for new installs, pin postgres container to debian trixie to avoid collation version mismatch (#4901 - @swiffer)
+- docs: Update FreeBSD and Debian instructions to use GRAFANA_API_TOKEN for the dashboard writes (#4942 - @uqs)
+- docs: rename Home Assistant object_id to default_entity_id to be compliant with latest HA (#4980 - @MrPaulAR)
+- docs: explain MQTT in Readme via link to Wikipedia (#4985 - @DanCard)
+- docs(dev): provide guidelines for checking dependency updates before merging (#4969 - @JakobLichterfeld)
+
+## [2.1.1] - 2025-08-16
+
+As always, there have been many improvements. We now use the latest version of Grafana (12.1.1) and have enhanced the database migration process to include the new ascent and descent values, allowing successful migration even when entries are faulty. Previously, this prevented the migration from succeeding for some users. This highlights the importance of user feedback. Such cases never occurred in our testing.
+
+Enjoy it.
+
+### New features
+
 - feat(nix): add idiomatic maintenance scripts (#4849 - @JakobLichterfeld)
 
 ### Improvements and bug fixes
@@ -13,6 +62,9 @@
 - feat(nix): use datasources.settings.datasources to allow merging Grafana sources from multiple modules (#4870 - @JakobLichterfeld)
 - fix(nix): correctly set default Grafana dashboard path (#4870 - @JakobLichterfeld)
 - feat(nix): allow disabling default Grafana dashboard with setDefaultDashboard option (#4870 - @JakobLichterfeld)
+- fix: set descent and ascent to 0 when out of bounds (> 32767 meters) to ensure migration succeeds (#4882 - @swiffer)
+- feat: use Grafana 12.1.1 (#4886 - @swiffer)
+- feat(webview): update wording to View car location on Google Maps for clarity (#4875 - @JakobLichterfeld)
 
 #### Build, CI, internal
 
@@ -23,6 +75,8 @@
 - build(deps): bump ecto_sql from 3.12.1 to 3.13.2 (#4863)
 - build(deps): update flake.lock (#4867)
 - build(deps): bump phoenix_ecto from 4.6.4 to 4.6.5 (#4862)
+- build(deps): update flake.lock (#4881)
+- build(deps): update flake.lock (#4888)
 
 #### Dashboards
 
@@ -2544,7 +2598,8 @@ New users need to sign in via the web interface.
 
 ## [1.0.0] - 2019-07-25
 
-[unreleased]: https://github.com/teslamate-org/teslamate/compare/v2.1.0...HEAD
+[unreleased]: https://github.com/teslamate-org/teslamate/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/teslamate-org/teslamate/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/teslamate-org/teslamate/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/teslamate-org/teslamate/compare/v1.33.0...v2.0.0
 [1.33.0]: https://github.com/teslamate-org/teslamate/compare/v1.32.0...v1.33.0
