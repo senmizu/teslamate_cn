@@ -6,15 +6,226 @@
 
 ### Improvements and bug fixes
 
+- feat: use Logger instead of IO.puts in DB check (#5050 - @swiffer)
+- feat: Increase max_header_value_length to support oauth2-proxy (#5031 - @ultravail)
+
 #### Build, CI, internal
 
-#### Dashboards
+- build(deps): bump mdast-util-to-hast from 13.2.0 to 13.2.1 in /website (#5059)
+- build(deps): bump js-yaml from 3.14.1 to 3.14.2 in /website (#5043)
+- build(deps): bump crate-ci/typos from 1.39.0 to 1.40.0 (#5055)
+- build(deps): bump DeterminateSystems/update-flake-lock from 27 to 28 (#5056)
+- build(deps): bump express from 4.21.2 to 4.22.1 in /website (#5060)
+- build(deps): update flake.lock (#5027)
 
-- fix: new image on home dashboard as old got removed from Tesla mediaserver (#4702 - @JakobLichterfeld, @swiffer)
+#### Dashboards
 
 #### Translations
 
 #### Documentation
+
+- docs(traefik): update to v3.6 as 3.6.1 solves issues with docker 29.0 (#5034 - @JakobLichterfeld)
+
+## [2.2.0] - 2025-11-06
+
+As always, there have been many improvements. We now support a proxy for the OpenStreetMap API. If you live in a geo-blocked location, this could simplify your setup. Your tokens are now more secure.
+We use the latest dependencies and support PostgreSQL 18 (To update, back up your data and follow [the guide](https://docs.teslamate.org/docs/maintenance/upgrading_postgres) **Please note: Volume mounts have changed in PostgreSQL18, see point 4 of the guide.**).
+We also avoid memory bloat on misconfigured Docker hosts. If your host has limited hardware, this will greatly improve your experience.
+The dashboards have been improved in terms of performance, and all dashboards now function as expected when set to miles.
+
+Enjoy it.
+
+### New features
+
+- feat: support proxy for openstreet API (#4970 - @jaypark0006)
+
+### Improvements and bug fixes
+
+- sec: set tokens to private schema (#4968 -@brianmay)
+- build(deps): use elixir 1.18.4, node 22 & debian trixie (#4889 - @swiffer)
+- fix: allow using different PostgreSQL port than default when using socket_dir connection (#4979 - @jaypark0006)
+- perf: use anti join for short-circuit evaluation when getting non streamed drives (#4990 - @swiffer)
+- feat: Add ulimit cap to prevent memory bloat in some misconfigured versions of Docker/containerd Hosts (e.g. on Debian 13) (#5025 - @JakobLichterfeld)
+- feat: officially support PostgreSQL 18 (#4890 - @swiffer)
+
+#### Build, CI, internal
+
+- build(deps): update flake.lock (#4911)
+- build(deps): bump @docusaurus/core from 3.8.1 to 3.9.1, @docusaurus/preset-classic from 3.8.1 to 3.9.1, bump dependencies in /website (#4977 - @JakobLichterfeld)
+- build(deps): bump actions/checkout from 4.2.2 to 5.0.0 (#4933)
+- build(deps): bump actions/cache from 4.2.3 to 4.3.0 (#4972)
+- build(deps): bump nixbuild/nix-quick-install-action from 32 to 34 (#4974)
+- build(deps): bump docker/login-action from 3.4.0 to 3.6.0 (#4975)
+- build(deps): bump crate-ci/typos from 1.34.0 to 1.37.0 (#4976)
+- build(deps): bump finch from 0.19.0 to 0.20.0 (#4929)
+- build(deps): update flake.lock (#4991)
+- build(deps): update flake.lock (#4997)
+- build(deps): bump actions/stale from 9.1.0 to 10.1.0 (#5019)
+- build(deps): bump @docusaurus/core from 3.9.1 to 3.9.2, @docusaurus/preset-classic from 3.9.1 to 3.9.2 and dependencies in /website (#5020)
+
+#### Dashboards
+
+- fix: charging stats now correctly calculate cost when set to miles (#4983 - @DrMichael)
+- perf: Optimize Grafana query for trip view to leverage indexes more effectively (#4964 - @jaypark0006)
+- feat: add shared buffers size to db info dashboard (#4989 - @swiffer)
+- fix: cast to numeric instead of integer when converting from km to miles to avoid rounding issues in all dashboards (#4986 - @swiffer)
+- fix: correctly determine charging phases in charge detail dashboard (#4988 - @swiffer)
+
+#### Translations
+
+- i18n: add spanish car location translation (#4892 - @jpizquierdo)
+- i18n: add missing italian translations, correct the gender of some words and use more uniform translations (#4920 - @giovaorama)
+- i18n: add thai car location translation (#4956 - @tomzt)
+- i18n: update Traditional Chinese translations with missing translations and to avoid PRC terms and ensure consistency across UI strings (#4995 - @occultsound)
+
+#### Documentation
+
+- docs: for new installs, pin postgres container to debian trixie to avoid collation version mismatch (#4901 - @swiffer)
+- docs: Update FreeBSD and Debian instructions to use GRAFANA_API_TOKEN for the dashboard writes (#4942 - @uqs)
+- docs: rename Home Assistant object_id to default_entity_id to be compliant with latest HA (#4980 - @MrPaulAR)
+- docs: explain MQTT in Readme via link to Wikipedia (#4985 - @DanCard)
+- docs(dev): provide guidelines for checking dependency updates before merging (#4969 - @JakobLichterfeld)
+- docs: add domain prefix to Home Assistant default_entity_id (#5014 - @gym22)
+- docs: add star history (#5024 - @JakobLichterfeld)
+- docs: bump Traefik to v3.5 and enable http3 in advanced guide (#5023 - @swiffer)
+- docs: add docs for volume mount change with PostgreSQL 18 (#4890 - @swiffer)
+
+## [2.1.1] - 2025-08-16
+
+As always, there have been many improvements. We now use the latest version of Grafana (12.1.1) and have enhanced the database migration process to include the new ascent and descent values, allowing successful migration even when entries are faulty. Previously, this prevented the migration from succeeding for some users. This highlights the importance of user feedback. Such cases never occurred in our testing.
+
+Enjoy it.
+
+### New features
+
+- feat(nix): add idiomatic maintenance scripts (#4849 - @JakobLichterfeld)
+
+### Improvements and bug fixes
+
+- feat(webview): show offline duration in extended view on mobile as well to improve UX (#4848 - @JakobLichterfeld)
+- feat: use Grafana 12.1.0 (#4855 - @swiffer)
+- feat(nix): use datasources.settings.datasources to allow merging Grafana sources from multiple modules (#4870 - @JakobLichterfeld)
+- fix(nix): correctly set default Grafana dashboard path (#4870 - @JakobLichterfeld)
+- feat(nix): allow disabling default Grafana dashboard with setDefaultDashboard option (#4870 - @JakobLichterfeld)
+- fix: set descent and ascent to 0 when out of bounds (> 32767 meters) to ensure migration succeeds (#4882 - @swiffer)
+- feat: use Grafana 12.1.1 (#4886 - @swiffer)
+- feat(webview): update wording to View car location on Google Maps for clarity (#4875 - @JakobLichterfeld)
+
+#### Build, CI, internal
+
+- style(issue-template): typo fix in Unraid (#4842 - @JakobLichterfeld)
+- build(deps): update flake.lock (#4858)
+- build(deps): bump DeterminateSystems/update-flake-lock from 25 to 27 (#4864)
+- build(deps): bump react and react-dom from 19.1.0 to 19.1.1 in /website (#4865 - @JakobLichterfeld)
+- build(deps): bump ecto_sql from 3.12.1 to 3.13.2 (#4863)
+- build(deps): update flake.lock (#4867)
+- build(deps): bump phoenix_ecto from 4.6.4 to 4.6.5 (#4862)
+- build(deps): update flake.lock (#4881)
+- build(deps): update flake.lock (#4888)
+
+#### Dashboards
+
+#### Translations
+
+- i18n: fix de translation for car location link (#4844 - @JakobLichterfeld)
+
+#### Documentation
+
+- docs: add reference to idiomatic nix backup and restore scripts (#4849 - @JakobLichterfeld)
+- docs: add reference to idiomatic nix maintenance scripts (#4849 - @JakobLichterfeld)
+
+## [2.1.0] - 2025-07-21
+
+As always, there are many improvements. We have introduced new database fields to store the total ascent and descent of a drive, which can be used in the drives and efficiency dashboards. This is a valuable addition for users who wish to analyze their driving patterns and performance in hilly areas, and it enhances the efficiency metrics.
+The database will be migrated automatically to include these new fields. Depending on your host and the size of your database, this process may take some time. Please be patient and wait for the process to finish (depending on your host, it takes a few seconds to about a minute on a Raspberry Pi 3B+ with a 1 GB database).
+
+We now use the latest Grafana 12.0.1, and you can now open a Google Maps link for the car's current location by clicking on the location marker icon in the webview to quickly navigate to your car's location, without having to open the Tesla app.
+Additionally, we have fixed some issues with the consumption for drives with a positive SOC difference, and we have aligned the usage of time-range filters to resolve consumption gross issues in some edge cases.
+The charging stats are now even more consistent. We now detect consecutive charges and exclude them from the charge / discharge stats (PV surplus charging: we've got you covered).
+
+Enjoy it.
+
+### New features
+
+- feat(webview): add map marker icon to open Google Maps link with car's current location (#4838 - @JakobLichterfeld)
+- feat: add total ascent & descent to the drive table to use in the drives dashboards (#4798 - @swiffer)
+- feat(nix): add idiomatic backup and restore scripts (#4835 - @JakobLichterfeld)
+
+### Improvements and bug fixes
+
+- fix(nix): update cldr hash (#4723 - @brianmay)
+- feat: use Grafana 12.0.0 (#4721 - @swiffer)
+- feat: use Grafana 12.0.1 (#4756 - @swiffer)
+- feat: preserve the folders when restoring dashboards (#4715 - @IngmarStein)
+- feat: use Grafana 12.0.1+security-01 (#4799 - @swiffer)
+- feat: use Grafana 12.0.2 (#4805 - @swiffer)
+- feat(mqtt): always publish healthy status and disable retain to prevent stale healthy status via mqtt (#4817 - @allivshits)
+- feat: use the k8s-style API introduced in Grafana v12 if using manual dashboard setup (#4764- @IngmarStein)
+- feat(db-check): allow beta / rc PostgreSQL versions for testing (#4795 - @swiffer)
+- feat: enhance HTTP limits for managing fleets with over 10 vehicles (#4607 - @jlestel)
+
+#### Build, CI, internal
+
+- build(deps): bump tzdata from 1.1.2 to 1.1.3 (#4713)
+- build(deps-dev): bump mock from 0.3.8 to 0.3.9 (#4712)
+- build(deps-dev): bump credo from 1.7.11 to 1.7.12 (#4711)
+- build(deps): bump crate-ci/typos from 1.31.1 to 1.31.2 (#4710)
+- fix(nix): update mix dependency hash in nix builds ([08fe0ac](https://github.com/teslamate-org/teslamate/commit/08fe0ac934176484c84fd4329c8d64925b6b0b97) - @JakobLichterfeld)
+- feat(nix): use nixos-25.05 (#4716 - @JakobLichterfeld)
+- build(deps): update flake.lock (#4716)
+- fix(nix): skip duplicate cldr download to fix build on darwin and improve reproducibility (#4763 - @JakobLichterfeld)
+- build(deps): bump DeterminateSystems/update-flake-lock from 24 to 25 (#4774)
+- build(deps): bump crate-ci/typos from 1.31.2 to 1.32.0 (#4775)
+- build(deps): bump castore from 1.0.12 to 1.0.14 (#4778)
+- build(deps): update flake.lock (#4772)
+- build(deps): bump phoenix_ecto from 4.6.3 to 4.6.4 (#4779)
+- build(deps): bump @docusaurus/preset-classic from 3.7.0 to 3.8.0 in /website (#4776)
+- build(deps): bump @docusaurus/core from 3.7.0 to 3.8.0, @docusaurus/preset-classic from 3.8.0 to 3.8.1, bump dependencies in /website (#4777 - @JakobLichterfeld)
+- build(deps): bump nixbuild/nix-quick-install-action from 30 to 32 (#4813)
+- build(deps): bump brace-expansion from 1.1.11 to 1.1.12 in /website (#4821)
+- build(deps): bump plug_cowboy from 2.7.3 to 2.7.4 (#4816)
+- build(deps): bump crate-ci/typos from 1.33.1 to 1.34.0 (#4814)
+- build(deps): bump timex from 3.7.11 to 3.7.13 (#4815)
+- build(deps): update flake.lock (#4828 - @JakobLichterfeld)
+- build(nix): update mix dependency hash in nix builds (#4828 - @JakobLichterfeld)
+- chore(issue-template): enhance bug report template with additional fields and guidance (#4827 - @JakobLichterfeld)
+- build(deps): bump on-headers from 1.0.2 to 1.1.0 and compression from 1.0.2 to 1.1.0 in /website (#4831)
+- sec(deps): override webpack-dev-server to version 5.2.1 to fix CVE-2025-30360 (#4833 - @JakobLichterfeld)
+- ci(coverage): explicitly set mix-env to test ([322c2a2](https://github.com/teslamate-org/teslamate/commit/322c2a26e61ce68d5b44cb7f0f1a7c1820e0164d) and [e6931ab](https://github.com/teslamate-org/teslamate/commit/e6931aba6809c457cc7224aec934b8e419d2c116) - @JakobLichterfeld)
+- fix(mix): add "coveralls.github" to preferred_cli_env to avoid missing task error in CI runs ([1c76994](https://github.com/teslamate-org/teslamate/commit/1c76994b563a4e61514a1cf62c310532775add46) - @JakobLichterfeld)
+- build(deps): update flake.lock (#4834)
+- chore(issue-template): update bug report template to include Unraid as unsupported installation method (#4829 - @JakobLichterfeld)
+
+#### Dashboards
+
+- fix: new image on home dashboard as old got removed from Tesla mediaserver (#4702 - @JakobLichterfeld, @swiffer)
+- feat: update image on home dashboard to juniper and back to dark (#4742 - @swiffer)
+- fix: consumption for drives with positive soc diff (#4746 - @swiffer)
+- fix: align usage of time-range filters to fix consumption gross issues in some edge cases (#4787 - @swiffer)
+- feat(dashboards-Charging-Stats): align query conditions and introduce a min duration filter applied to all panels to ensure consistent charging stats (#4791 - @swiffer)
+- feat(dashboards): reliably calculate charging costs per 100 km for shorter periods and align across trip, statistics and charging stats dashboards (#4791 - @swiffer)
+- feat(dashboards): detect consecutive charges and exclude from Charge / Discharge Stats (#4791 - @swiffer)
+- feat(dashboards): introduce slope-adjusted efficiency metric in drives dashboard (#4798 - @swiffer)
+
+#### Translations
+
+- i18n: create Catalan default.po (#4727 and #4728 - @pellix)
+- i18n: more descriptive italian localization (#4748 -@StarkITA)
+
+#### Documentation
+
+- docs: improvement to the Debian installation instructions (#4734 - @iustin)
+- docs: add note on accessory power functionality can prevent car sleep (#4737 - @darox)
+- docs: clarify pricing for Teslemetry (#4705 - @Bre77)
+- docs: add NixOS installation guide (#4768 - @JakobLichterfeld)
+- doc: add OpenSSF scorecard (#4819 - @JakobLichterfeld)
+- docs: streamline installation guides (#4829 - @JakobLichterfeld)
+- docs: add nix develop to run treefmt to support non nix direnv users (#4829 - @JakobLichterfeld)
+- docs: add Unraid installation and maintenance instructions (no support) (#4758, #4829 - @vypergts and @JakobLichterfeld)
+- docs: clarify the use of secure connection to access TeslaMate (#4829 - @JakobLichterfeld)
+- docs: reorder guides into advanced guides, categories FleetAPI documentation as config (#4829 - @JakobLichterfeld)
+- docs: clarify which installation methods are supported and which are not (#4829 - @JakobLichterfeld)
+- docs: mention dedicated version for MCU2 upgraded cars (#4829 - @JakobLichterfeld)
 
 ## [2.0.0] - 2025-04-26
 
@@ -86,6 +297,7 @@ Enjoy it.
 - fix: set $\_\_timezone explicitly in dashboards to ensure truncation is done with respect to the Grafana timezone (#4684 - @swiffer)
 - fix: issues when using browser locale for date formats (#4662 - @swiffer)
 - fix: widens Date Columns to fully show date strings formatted in US locale (#4662 - @swiffer)
+- feat: add duration time to charges details dashboard (#4677 - @jheredianet)
 
 #### Translations
 
@@ -2431,7 +2643,10 @@ New users need to sign in via the web interface.
 
 ## [1.0.0] - 2019-07-25
 
-[unreleased]: https://github.com/teslamate-org/teslamate/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/teslamate-org/teslamate/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/teslamate-org/teslamate/compare/v2.1.1...v2.2.0
+[2.1.1]: https://github.com/teslamate-org/teslamate/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/teslamate-org/teslamate/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/teslamate-org/teslamate/compare/v1.33.0...v2.0.0
 [1.33.0]: https://github.com/teslamate-org/teslamate/compare/v1.32.0...v1.33.0
 [1.32.0]: https://github.com/teslamate-org/teslamate/compare/v1.31.1...v1.32.0

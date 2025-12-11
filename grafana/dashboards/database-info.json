@@ -54,7 +54,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -85,7 +86,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -135,7 +136,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -166,7 +168,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -244,7 +246,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -275,7 +278,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -353,7 +356,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -384,7 +388,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -461,7 +465,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -490,7 +495,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -501,7 +506,7 @@
           "format": "table",
           "rawQuery": true,
           "rawSql": "SELECT regexp_replace(version(), 'PostgreSQL ([^ ]+) .*', '\\1') AS version;",
-          "refId": "A",
+          "refId": "PostgreSQL Version",
           "sql": {
             "columns": [
               {
@@ -560,7 +565,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -608,7 +614,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -665,7 +671,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -712,7 +719,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -770,7 +777,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -862,7 +870,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -912,7 +920,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           },
@@ -922,7 +931,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
+        "w": 3,
         "x": 0,
         "y": 21
       },
@@ -944,7 +953,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -955,7 +964,7 @@
           "format": "table",
           "rawQuery": true,
           "rawSql": "SELECT \n    SUM(pg_total_relation_size(relid)) As \"Size\"\nFROM \n    pg_catalog.pg_statio_user_tables;",
-          "refId": "DistanceLogged",
+          "refId": "Database Total Size",
           "sql": {
             "columns": [
               {
@@ -983,6 +992,89 @@
         "type": "grafana-postgresql-datasource",
         "uid": "TeslaMate"
       },
+      "description": "<b>Shared Buffers:</b> This metric shows the amount of memory PostgreSQL uses to store frequently accessed data, like tables and indexes, to make queries faster by avoiding slow disk reads.\n\n<b>Recommended value:</b> Use about 25% of your system's total RAM (e.g., 1GB for a system with 4GB RAM). Start with a modest value and adjust based on your app's needs. Setting it too high can waste memory.\n\n<b>To change in a Postgres Docker Compose file:</b> In your docker-compose.yml, add or update the command field under the Postgres service to include the shared_buffers setting. For example:\n\n<pre>\nservices:\n  database:\n    image: postgres:18-trixie\n    command: postgres -c shared_buffers=1GB\n    ...\n</pre>\n\nAfter updating the file, run <code>docker compose down</code> and <code>docker compose up -d</code> to restart the container and apply the change.\n\nFor more details: <a href='https://www.postgresql.org/docs/18/runtime-config-resource.html#GUC-SHARED-BUFFERS' target='_blank'>PostgreSQL: Documentation: 18: 19.4. Resource Consumption</a>",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-blue",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 3,
+        "y": 21
+      },
+      "id": 52,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "TeslaMate"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT cast(setting as numeric) * 8 * 1024 FROM pg_catalog.pg_settings WHERE name = 'shared_buffers';",
+          "refId": "Shared Buffers",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Shared Buffers",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "TeslaMate"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -994,7 +1086,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -1025,7 +1118,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1036,7 +1129,7 @@
           "format": "table",
           "rawQuery": true,
           "rawSql": "show timezone;",
-          "refId": "DistanceLogged",
+          "refId": "Timezone",
           "sql": {
             "columns": [
               {
@@ -1088,7 +1181,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -1117,7 +1211,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1167,7 +1261,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": 0
               }
             ]
           }
@@ -1196,7 +1291,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1251,7 +1346,7 @@
         "content": "Check the [contribution docs](https://docs.teslamate.org/docs/development#enable-pg_stat_statements-to-collect-query-statistics) on how to enable tracking planning and execution statistics of all SQL statements executed by a server.\n",
         "mode": "markdown"
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "title": "About pg_stat_statements (track statistics of SQL planning and execution)",
       "type": "text"
     },
@@ -1278,7 +1373,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1364,7 +1460,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1421,7 +1517,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1507,7 +1604,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {

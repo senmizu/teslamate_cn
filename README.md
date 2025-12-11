@@ -1,5 +1,6 @@
 # TeslaMate
 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10859/badge)](https://www.bestpractices.dev/projects/10859)
 [![CI](https://github.com/teslamate-org/teslamate/actions/workflows/devops.yml/badge.svg)](https://github.com/teslamate-org/teslamate/actions/workflows/devops.yml)
 [![Publish Docker images](https://github.com/teslamate-org/teslamate/actions/workflows/buildx.yml/badge.svg)](https://github.com/teslamate-org/teslamate/actions/workflows/buildx.yml)
 [![Coverage](https://coveralls.io/repos/github/teslamate-org/teslamate/badge.svg?branch=main)](https://coveralls.io/github/teslamate-org/teslamate?branch=main)
@@ -12,7 +13,7 @@ A powerful, self-hosted data logger for your Tesla.
 - Written in **[Elixir](https://elixir-lang.org/)**
 - Data is stored in a **Postgres** database
 - Visualization and data analysis with **Grafana**
-- Vehicle data is published to a local **MQTT** Broker
+- Vehicle data is published to a local **[MQTT](https://en.wikipedia.org/wiki/MQTT)** Broker
 
 # 本项目属于中国区DIY版本
 更适合中国宝宝的配方！定期rebase官方新版本。  
@@ -175,6 +176,16 @@ Sneak peak into TeslaMate interface and bundled dashboards. See [the docs](https
 ![Drive Details](/website/static/screenshots/drive.png)
 
 ![Battery Health](/website/static/screenshots/battery-health.png)
+
+## Star History
+
+<a href="https://www.star-history.com/#teslamate-org/teslamate&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=teslamate-org/teslamate&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=teslamate-org/teslamate&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=teslamate-org/teslamate&type=date&legend=top-left" />
+ </picture>
+</a>
 
 ## Credits
 

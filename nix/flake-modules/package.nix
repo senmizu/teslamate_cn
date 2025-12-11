@@ -7,7 +7,7 @@
     , ...
     }:
     let
-      elixir = pkgs.beam.packages.erlang_26.elixir_1_17;
+      elixir = pkgs.beam.packages.erlang_26.elixir_1_18;
       beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_26;
 
       src = ../..;
@@ -18,7 +18,7 @@
         TOP_SRC = src;
         pname = "${pname}-mix-deps";
         inherit src version;
-        hash = "sha256-uPbe01S/LN1n6TsbEUASwwFSoJUzgzDCVl2HcZLw4eU=";
+        hash = "sha256-OFfvY/3iWvt6qQSGMBux2x64pIrreZK48bjq/mrUzOI=";
         # hash = pkgs.lib.fakeHash;
       };
 
@@ -50,8 +50,8 @@
       cldr = pkgs.fetchFromGitHub {
         owner = "elixir-cldr";
         repo = "cldr";
-        rev = "v2.40.0";
-        sha256 = "sha256-B3kIJx684kg3uxdFaWWMn9SBktb1GUqCzSJwN1a0oNo=";
+        rev = "v2.42.0";
+        sha256 = "sha256-FLGUKfAKAKL2nqf/7YXQuuuEvVuSy2RVhZves9XOI1Q=";
         # sha256 = pkgs.lib.fakeHash;
       };
 
@@ -65,6 +65,8 @@
           mixFodDeps
           ;
 
+        # set the environment variables for the build
+        SKIP_LOCALE_DOWNLOAD = "true"; # do not download locales during build as they are already included in the cldr package from github
         LOCALES = "${cldr}/priv/cldr";
 
         postBuild = ''

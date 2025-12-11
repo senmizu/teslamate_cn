@@ -9,22 +9,30 @@ module.exports = {
           label: "Installation",
           items: [
             "installation/docker",
-            "installation/debian",
-            "installation/freebsd",
+            "installation/nixos",
+            {
+              type: "category",
+              label: "unsupported Installation methods",
+              items: [
+                "installation/unsupported/debian",
+                "installation/unsupported/freebsd",
+                "installation/unsupported/unraid",
+              ],
+            },
           ],
         },
+
         "faq",
         "screenshots",
       ],
     },
     {
       type: "category",
-      label: "Guides",
+      label: "Advanced Guides",
       items: [
-        "guides/traefik",
-        "guides/apache",
-        "guides/unix_domain_sockets",
-        "guides/api",
+        "advanced_guides/traefik",
+        "advanced_guides/apache",
+        "advanced_guides/unix_domain_sockets",
       ],
     },
     {
@@ -44,7 +52,7 @@ module.exports = {
     {
       type: "category",
       label: "Advanced Configuration",
-      items: ["configuration/environment_variables"],
+      items: ["configuration/environment_variables", "configuration/api"],
     },
     {
       type: "category",
