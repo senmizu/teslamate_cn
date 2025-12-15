@@ -20,7 +20,7 @@ A powerful, self-hosted data logger for your Tesla.
 通过开放自定义地址反查接口和grafana地图配置文件，解决国内用户需要到处挂梯子才能显示地图、显示行程地址的痛点。
 
 ## 项目特性
- - 自定义地址反向查询URL（Docker env: NOMINATIM_PROXY）  
+ - 自定义地址反向查询URL（Docker env: NOMINATIM_API_HOST）  
    **服务可以通过nominatim容器自建，仅使用反向查询接口消耗的资源很少**
  - 自定义grafana地图组件使用的默认地图源  
    **服务当然也可以自建，但是比较耗费系统资源，我更推荐免费的API[Thunderforest，一个月15万次免费调用，非常充足](https://www.thunderforest.com/)**
@@ -53,7 +53,7 @@ services:
       - DATABASE_NAME=teslamate
       - DATABASE_HOST=database
       - MQTT_HOST=mosquitto
-      - NOMINATIM_PROXY=http://nominatim:8080  #就这样就行了
+      - NOMINATIM_API_HOST=http://nominatim:8080  #就这样就行了
       - TZ=Asia/Shanghai
     ports:
       - 4000:4000
