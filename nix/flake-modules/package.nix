@@ -7,7 +7,7 @@
     , ...
     }:
     let
-      elixir = pkgs.beam.packages.erlang_26.elixir_1_18;
+      elixir = pkgs.beam.packages.erlang_26.elixir_1_19;
       beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_26;
 
       src = ../..;
@@ -18,7 +18,7 @@
         TOP_SRC = src;
         pname = "${pname}-mix-deps";
         inherit src version;
-        hash = "sha256-OFfvY/3iWvt6qQSGMBux2x64pIrreZK48bjq/mrUzOI=";
+        hash = "sha256-DDrREiM1BIMgD2qFPTK8QyjOYlnfE3XlnaH/jk7G2go="; # if you change the mix deps, you need to update this hash
         # hash = pkgs.lib.fakeHash;
       };
 
@@ -26,7 +26,7 @@
       nodePackages = pkgs.buildNpmPackage {
         name = "${pname}-assets";
         src = "${src}/assets";
-        npmDepsHash = "sha256-5bnoGjuFC4jPUkrIsXBHUPCy4nWY7h5fWEWMDoZqaC8=";
+        npmDepsHash = "sha256-XyiaUkT/c4rZnNxmxhVLb+vEXnc64A1hjOrnR5fhaEk="; # if you change the npm deps, you need to update this hash
         # npmDepsHash = pkgs.lib.fakeHash;
         dontNpmBuild = true;
         inherit nodejs;
@@ -50,8 +50,8 @@
       cldr = pkgs.fetchFromGitHub {
         owner = "elixir-cldr";
         repo = "cldr";
-        rev = "v2.42.0";
-        sha256 = "sha256-FLGUKfAKAKL2nqf/7YXQuuuEvVuSy2RVhZves9XOI1Q=";
+        rev = "v2.46.0"; # this must match the version in the mix file
+        sha256 = "sha256-Ufq+eiLVbrNEKQmUf43o0jIrm456I3e3OJSUw1qan8c="; # if you change the cldr version in the mix file, you need to update this hash
         # sha256 = pkgs.lib.fakeHash;
       };
 

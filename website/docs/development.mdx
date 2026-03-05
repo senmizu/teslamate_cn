@@ -6,10 +6,14 @@ sidebar_label: Development and Contributing
 
 ## Requirements
 
-- **Elixir** >= 1.18.4-otp-26
-- **Postgres** >= 17.3
+TeslaMate officially supports the versions listed below. However, TeslaMate aims to maintain compatibility with the last three major releases of Erlang and Postgres, as well as the last three minor releases of Elixir.
+When contributing, please use the versions listed below, which match those used in official TeslaMate distributions.
+
+- **Elixir** >= 1.19.5-otp-26
+- **Postgres** >= 18.0
+- **Grafana** = 12.4.0
 - An **MQTT broker** e.g. mosquitto (_optional_)
-- **NodeJS** >= 20.15.0
+- **NodeJS** >= 22.22.0
 
 or [Nix](https://nixos.org/download/). You can then use the nix devenv (via direnv) setup.
 
@@ -138,17 +142,6 @@ Then edit the respective dashboard(s) locally. To export a dashboard hit the 'Sa
 
 When making larger changes to Grafana Dashboards please include updated screenshots (1920x1080 @ x2, Grafana running in Kiosk mode) in `./website/static/screenshots`. Ensure to blur sensitive information.
 
-### Grafana VS Code Extension
-
-The Grafana VS Code extension allows you to open Grafana dashboards as JSON files in VS Code, and preview them live with data from a Grafana instance of your choice.
-
-- Open a Grafana dashboard JSON file
-- Start a live preview of that dashboard inside VS Code, connected to live data from a Grafana instance of your choice
-- Edit the dashboard in the preview, using the normal Grafana dashboard editor UI
-- From the editor UI, save the updated dashboard back to the original JSON file
-
-see: [grafana-vs-code-extension](https://github.com/grafana/grafana-vs-code-extension)
-
 ## Best Practices
 
 ### Queries involving timestamp columns
@@ -217,6 +210,22 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   alt="Entity Relationship Model"
   src={useBaseUrl("img/entity_relationship_model.png")}
 />
+
+## Contributing to TeslaMate
+
+We welcome contributions! To keep the project sustainable and legally protected, we have two main requirements for all Pull Requests:
+
+### 1. License (AGPLv3)
+
+By contributing to TeslaMate, you agree that your contributions will be licensed under the **GNU Affero General Public License v3 (AGPLv3)**. This ensures that the software remains free and open, even when offered as a service over a network.
+
+### 2. Contributor License Agreement (CLA)
+
+Before we can merge your first Pull Request, you must sign our **Fiduciary License Agreement (FLA 2.0)**.
+
+- **Why?** This gives the `teslamate-org` the legal standing to protect the project (e.g., against trademark misuse or license violations) and guarantees that the project will **always remain Free Software**.
+- **How?** When you open a PR, our `@cla-assistant` bot will post a comment with a link to sign the agreement using your GitHub account. It only takes a few seconds.
+- **More Info:** You can find the full text and further details in our [Legal Repository](https://github.com/teslamate-org/legal).
 
 ## Pre-Merge Checks for Dependency Updates
 
