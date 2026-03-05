@@ -145,7 +145,7 @@ function createMap(opts) {
   const isDarkMode =
     document.documentElement.getAttribute("data-theme") === "dark";
 
-  const osm = new TileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  const osm = new TileLayer("https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
     maxZoom: 19,
     className: isDarkMode ? "dark-mode-tiles" : "",
   });
