@@ -7,8 +7,9 @@
     , ...
     }:
     let
-      elixir = pkgs.beam.packages.erlang_26.elixir_1_19;
-      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_26;
+      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_28;
+      elixir = beamPackages.elixir_1_19;
+      rebar3 = beamPackages.rebar3;
 
       src = ../..;
       version = builtins.readFile "${src}/VERSION";
@@ -18,7 +19,7 @@
         TOP_SRC = src;
         pname = "${pname}-mix-deps";
         inherit src version;
-        hash = "sha256-DDrREiM1BIMgD2qFPTK8QyjOYlnfE3XlnaH/jk7G2go="; # if you change the mix deps, you need to update this hash
+        hash = "sha256-KzbvAtJR1TFQuWFVcJBilA3aH4SdfBvVc+eq26dwxwE="; # if you change the mix deps, you need to update this hash
         # hash = pkgs.lib.fakeHash;
       };
 
@@ -26,7 +27,7 @@
       nodePackages = pkgs.buildNpmPackage {
         name = "${pname}-assets";
         src = "${src}/assets";
-        npmDepsHash = "sha256-XyiaUkT/c4rZnNxmxhVLb+vEXnc64A1hjOrnR5fhaEk="; # if you change the npm deps, you need to update this hash
+        npmDepsHash = "sha256-CD0IaoMxaBcoAHMJusIn0e0mDo962wLKp6lWjFIb/gI="; # if you change the npm deps, you need to update this hash
         # npmDepsHash = pkgs.lib.fakeHash;
         dontNpmBuild = true;
         inherit nodejs;
@@ -50,8 +51,8 @@
       cldr = pkgs.fetchFromGitHub {
         owner = "elixir-cldr";
         repo = "cldr";
-        rev = "v2.46.0"; # this must match the version in the mix file
-        sha256 = "sha256-Ufq+eiLVbrNEKQmUf43o0jIrm456I3e3OJSUw1qan8c="; # if you change the cldr version in the mix file, you need to update this hash
+        rev = "v2.47.4"; # this must match the version in the mix file
+        sha256 = "sha256-LIQK6pZRAW1T3Ej2XAjnuPo82hPJ2KiMPWYmHWgx008="; # if you change the cldr version in the mix file, you need to update this hash
         # sha256 = pkgs.lib.fakeHash;
       };
 
@@ -96,11 +97,15 @@
           type = lib.types.package;
           readOnly = true;
         };
+        teslamate.rebar3 = lib.mkOption {
+          type = lib.types.package;
+          readOnly = true;
+        };
       };
 
       config = {
         teslamate = {
-          inherit cldr elixir;
+          inherit cldr elixir rebar3;
         };
 
         packages = {

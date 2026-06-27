@@ -15,6 +15,7 @@ Alternatively, you can use a reverse proxy (such as Traefik, Apache2 or Caddy) w
 - A Machine that's always on, so TeslaMate can continually fetch data
 - At least 1 GB of RAM on the machine for the installation to succeed. It is recommended to have at least 2 GB of RAM for optimal operation.
 - External internet access, to talk to tesla.com
+- Docker images are available for aarch64 (ARM 64-bit) and amd64 (Intel/AMD 64-bit). For Raspberry Pi users: armv7 is no longer supported. You must use a 64-bit Raspberry Pi OS with an ARMv8-compatible board (Raspberry Pi 3 or newer)
 
 ## Instructions
 
@@ -86,10 +87,6 @@ Alternatively, you can use a reverse proxy (such as Traefik, Apache2 or Caddy) w
    ```bash
    docker compose up -d
    ```
-
-### MCU2 upgraded car
-
-If you have a MCU2 upgraded car, you can replace `image: teslamate/teslamate:latest` with `image: ghcr.io/teslamate-org/teslamate:pr-4453` to get the latest version of TeslaMate that supports MCU2 upgraded cars (improved sleeping behavior for MCU2 upgraded cars).
 
 ## Usage
 

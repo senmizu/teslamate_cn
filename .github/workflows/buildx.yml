@@ -26,7 +26,7 @@ jobs:
 
   teslamate_build:
     needs: check_paths
-    if: needs.check_paths.outputs.githubfolder != 'true' || github.event_name == 'schedule'
+    if: needs.check_paths.outputs.githubfolder == 'false' || github.event_name == 'schedule'
     strategy:
       fail-fast: false
       matrix:
@@ -34,11 +34,8 @@ jobs:
           - platform: "linux/amd64"
             runs_on: "ubuntu-24.04"
             cache_id: amd64
-          - platform: "linux/arm/v7"
-            runs_on: "buildjet-2vcpu-ubuntu-2204-arm"
-            cache_id: arm
           - platform: "linux/arm64"
-            runs_on: "buildjet-2vcpu-ubuntu-2204-arm"
+            runs_on: "ubuntu-24.04-arm"
             cache_id: arm64
 
     runs-on: ${{ matrix.runs_on }}
@@ -46,7 +43,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - name: Buildx
         uses: ./.github/actions/build
         with:
@@ -62,13 +59,13 @@ jobs:
     needs:
       - check_paths
       - teslamate_build
-    if: needs.check_paths.outputs.githubfolder != 'true' || github.event_name == 'schedule'
+    if: needs.check_paths.outputs.githubfolder == 'false' || github.event_name == 'schedule'
     steps:
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Login to Docker Hub
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
           username: teslamate
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -83,15 +80,15 @@ jobs:
             type=edge
   grafana:
     needs: check_paths
-    if: needs.check_paths.outputs.githubfolder != 'true' || github.event_name == 'schedule'
+    if: needs.check_paths.outputs.githubfolder == 'false' || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Login to Docker Hub
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
           username: teslamate
           password: ${{ secrets.DOCKER_PASSWORD }}

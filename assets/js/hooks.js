@@ -43,6 +43,27 @@ export const LocalTime = {
   },
 };
 
+export const LocalDateTime = {
+  render() {
+    const dateStr = this.el.dataset.date;
+    const date = toLocalDate(dateStr, {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const time = toLocalTime(dateStr);
+    this.el.innerText = `${date}, ${time}`;
+  },
+
+  mounted() {
+    this.render();
+  },
+
+  updated() {
+    this.render();
+  },
+};
+
 export const LocalTimeRange = {
   exec() {
     const date = toLocalDate(this.el.dataset.startDate, {
@@ -141,13 +162,8 @@ const DirectionArrow = CircleMarker.extend({
 function createMap(opts) {
   const map = new M(opts.elId != null ? `map_${opts.elId}` : "map", opts);
 
-  // Detect dark mode to use appropriate tiles
-  const isDarkMode =
-    document.documentElement.getAttribute("data-theme") === "dark";
-
   const osm = new TileLayer("https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
     maxZoom: 19,
-    className: isDarkMode ? "dark-mode-tiles" : "",
   });
 
   if (opts.enableHybridLayer) {

@@ -39,8 +39,8 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       now_ts = DateTime.to_unix(now, :millisecond)
 
       events = [
-        {:ok, online_event()},
-        {:ok, online_event(drive_state: %{timestamp: now_ts})},
+        {:ok, online_event(now_ts)},
+        {:ok, online_event(now_ts, drive_state: %{timestamp: now_ts})},
         fn ->
           send(me, :continue?)
 
@@ -55,7 +55,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
         {:error, :closed},
         {:error, :closed},
         {:ok,
-         online_event(
+         online_event(now_ts + 10,
            drive_state: %{
              timestamp: now_ts + 10,
              latitude: 42.91,
@@ -68,11 +68,12 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
         fn -> Process.sleep(10_000) end
       ]
 
-      :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+      :ok = start_vehicle(name, events)
 
       assert_receive {:start_state, car, :online, date: _}
       assert_receive {:insert_position, ^car, %{}}
       assert_receive {ApiMock, {:stream, _eid, func}} when is_function(func)
+      assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
       assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
 
       assert_receive :continue?
@@ -161,15 +162,14 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       now_ts = DateTime.to_unix(now, :millisecond)
 
       events = [
-        {:ok, online_event()},
-        {:ok, online_event(drive_state: %{timestamp: now_ts})},
+        {:ok, online_event(now_ts)},
         fn ->
           send(me, :continue?)
 
           receive do
             :continue ->
               {:ok,
-               online_event(
+               online_event(now_ts + 0,
                  drive_state: %{
                    timestamp: now_ts + 0,
                    latitude: 42.91,
@@ -189,7 +189,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
           receive do
             :continue ->
               {:ok,
-               online_event(
+               online_event(now_ts + 4,
                  drive_state: %{
                    timestamp: now_ts + 4,
                    latitude: 42.91,
@@ -211,7 +211,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       d3 = DateTime.from_unix!(now_ts + 2, :millisecond)
       d4 = DateTime.from_unix!(now_ts + 4, :millisecond)
 
-      :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+      :ok = start_vehicle(name, events)
 
       assert_receive {:start_state, car, :online, date: _}
       assert_receive {:insert_position, ^car, %{}}
@@ -226,9 +226,11 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       stream(name, %{shift_state: "D", time: d2})
       assert_receive {:insert_position, ^drive, %{date: ^d2}}
 
+      assert_receive :continue?
+      refute_receive _
+
       assert capture_log(@log_opts, fn ->
                stream(name, %{shift_state: "P", speed: nil, power: nil, time: d3})
-               assert_receive :continue?
                send(:"api_#{name}", :continue)
 
                assert_receive :continue?
@@ -295,19 +297,23 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
     @tag :capture_log
     test "discards stale stream data", %{test: name} do
       now = DateTime.utc_now()
+      now_ts = now |> DateTime.to_unix(:millisecond)
 
       events = [
-        {:ok, online_event()},
-        {:ok, online_event(drive_state: %{timestamp: DateTime.to_unix(now, :millisecond)})},
+        {:ok, online_event(now_ts)},
+        {:ok, online_event(now_ts, drive_state: %{timestamp: now_ts})},
         fn -> Process.sleep(10_000) end
       ]
 
-      :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+      :ok = start_vehicle(name, events)
 
       assert_receive {:start_state, car, :online, date: _}
       assert_receive {:insert_position, ^car, %{}}
       assert_receive {ApiMock, {:stream, _eid, func}} when is_function(func)
       assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
+      assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
+
+      refute_receive _
 
       assert capture_log(@log_opts, fn ->
                stream(name, %{shift_state: "P", time: DateTime.add(now, -1, :second)})
@@ -324,8 +330,8 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       now_ts = DateTime.to_unix(now, :millisecond)
 
       events = [
-        {:ok, online_event()},
-        {:ok, online_event(drive_state: %{timestamp: now_ts})},
+        {:ok, online_event(now_ts)},
+        {:ok, online_event(now_ts, drive_state: %{timestamp: now_ts})},
         fn ->
           send(me, :continue?)
 
@@ -341,7 +347,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
         fn -> Process.sleep(10_000) end
       ]
 
-      :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+      :ok = start_vehicle(name, events)
 
       assert_receive {:start_state, car, :online, date: _}
       assert_receive {:insert_position, ^car, %{}}
@@ -369,6 +375,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       assert_receive {ApiMock, {:stream, _eid, func}} when is_function(func)
       assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
 
+      assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
       refute_receive _
     end
   end
@@ -376,11 +383,12 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
   describe "suspended" do
     test "fetches the vehicle state if the stream becomes inactive", %{test: name} do
       me = self()
+      now_ts = DateTime.utc_now() |> DateTime.to_unix(:millisecond)
 
       events = [
-        {:ok, online_event()},
-        {:ok, online_event()},
-        {:ok, online_event()},
+        {:ok, online_event(now_ts)},
+        {:ok, online_event(now_ts + 1)},
+        {:ok, online_event(now_ts + 2)},
         fn ->
           send(me, :continue?)
 
@@ -425,13 +433,13 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       now_ts = DateTime.to_unix(now, :millisecond)
 
       events = [
-        {:ok, online_event(drive_state: %{timestamp: now_ts})},
-        {:ok, online_event(drive_state: %{timestamp: now_ts + 1})},
-        {:ok, online_event(drive_state: %{timestamp: now_ts + 2})},
+        {:ok, online_event(now_ts, drive_state: %{timestamp: now_ts})},
+        {:ok, online_event(now_ts + 1, drive_state: %{timestamp: now_ts + 1})},
+        {:ok, online_event(now_ts + 2, drive_state: %{timestamp: now_ts + 2})},
         fn -> Process.sleep(10_000) end
       ]
 
-      :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+      :ok = start_vehicle(name, events)
 
       assert_receive {:start_state, car, :online, date: _}
       assert_receive {:insert_position, ^car, %{}}
@@ -443,7 +451,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :suspended}}}
 
       assert capture_log(@log_opts, fn ->
-               stream(name, %{shift_state: "D", time: DateTime.add(now, 1, :millisecond)})
+               stream(name, %{shift_state: "D", time: DateTime.add(now, -1, :millisecond)})
                refute_receive _
              end) =~ "Received stale stream data"
     end
@@ -451,16 +459,17 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
 
   test "resumes logging when starting a drive", %{test: name} do
     now = DateTime.utc_now()
+    now_ts = DateTime.to_unix(now, :millisecond)
 
     events = [
-      {:ok, online_event()},
-      {:ok, online_event()},
-      {:ok, online_event()},
+      {:ok, online_event(now_ts)},
+      {:ok, online_event(now_ts + 1)},
+      {:ok, online_event(now_ts + 2)},
       fn -> Process.sleep(10_000) end
     ]
 
     :ok =
-      start_vehicle(name, events, settings: %{use_streaming_api: true, suspend_min: 999_999_999})
+      start_vehicle(name, events, settings: %{suspend_min: 999_999_999})
 
     assert_receive {:start_state, car, :online, date: _}
     assert_receive {:insert_position, ^car, %{}}
@@ -471,10 +480,24 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
     assert_receive {:insert_position, ^car, %{}}
     assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :suspended}}}
 
-    stream(name, %{shift_state: "P", speed: 0, power: 0, elevation: 50, time: now})
+    stream(name, %{
+      shift_state: "P",
+      speed: 0,
+      power: 0,
+      elevation: 50,
+      time: DateTime.add(now, 3, :millisecond)
+    })
+
     refute_receive _
 
-    stream(name, %{shift_state: "D", speed: 50, power: 5, elevation: 50, time: now})
+    stream(name, %{
+      shift_state: "D",
+      speed: 50,
+      power: 5,
+      elevation: 50,
+      time: DateTime.add(now, 3, :millisecond)
+    })
+
     assert_receive {:start_drive, ^car}
     assert_receive {:insert_position, _drive, position}
 
@@ -486,7 +509,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
              longitude: 42.0,
              speed: 80,
              battery_level: 60,
-             date: now,
+             date: DateTime.add(now, 3, :millisecond),
              elevation: 50,
              odometer: 1609.344,
              power: 5
@@ -501,9 +524,9 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
     now_ts = DateTime.to_unix(now, :millisecond)
 
     events = [
-      {:ok, online_event(drive_state: %{timestamp: now_ts})},
-      {:ok, online_event(drive_state: %{timestamp: now_ts + 1})},
-      {:ok, online_event(drive_state: %{timestamp: now_ts + 2})},
+      {:ok, online_event(now_ts, drive_state: %{timestamp: now_ts})},
+      {:ok, online_event(now_ts + 1, drive_state: %{timestamp: now_ts + 1})},
+      {:ok, online_event(now_ts + 2, drive_state: %{timestamp: now_ts + 2})},
       fn ->
         send(me, :continue?)
 
@@ -516,7 +539,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       fn -> Process.sleep(10_000) end
     ]
 
-    :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+    :ok = start_vehicle(name, events)
 
     assert_receive {:start_state, car, :online, date: _}
     assert_receive {:insert_position, ^car, %{}}
@@ -536,6 +559,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
 
     assert_receive {:insert_charge, _cproc, %{date: _, charge_energy_added: +0.0}}
     assert_receive {:"$websockex_cast", :disconnect}
+    assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
     assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :charging}}}
 
     refute_receive _
@@ -547,13 +571,13 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
       now_ts = DateTime.to_unix(now, :millisecond)
 
       events = [
-        {:ok, online_event()},
-        {:ok, online_event(drive_state: %{timestamp: now_ts})},
+        {:ok, online_event(now_ts)},
+        {:ok, online_event(now_ts, drive_state: %{timestamp: now_ts})},
         {:ok, update_event(now_ts + 10, "installing", "2019.8.4 530d1d3")},
         fn -> Process.sleep(10_000) end
       ]
 
-      :ok = start_vehicle(name, events, settings: %{use_streaming_api: true})
+      :ok = start_vehicle(name, events)
 
       assert_receive {:start_state, car_id, :online, date: _}
       assert_receive {:insert_position, ^car_id, %{}}
@@ -562,6 +586,7 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
 
       assert_receive {:start_update, ^car_id, date: _}
       assert_receive {:"$websockex_cast", :disconnect}
+      assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :online}}}
       assert_receive {:pubsub, {:broadcast, _, _, %Summary{state: :updating}}}
 
       # Handles unexpected stream messages
@@ -573,9 +598,11 @@ defmodule TeslaMate.Vehicles.Vehicle.StreamingTest do
 
   describe "offline" do
     test "fetch state when stream get :vehicle_offline", %{test: name} do
+      now_ts = DateTime.utc_now() |> DateTime.to_unix(:millisecond)
+
       events = [
-        {:ok, online_event()},
-        {:ok, online_event()},
+        {:ok, online_event(now_ts)},
+        {:ok, online_event(now_ts + 1)},
         fn -> Process.sleep(10_000) end
       ]
 

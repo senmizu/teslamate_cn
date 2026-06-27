@@ -125,8 +125,8 @@ default_baselayer_config = `{
 ```
 ## ⚠️ Security Warning
 
-[!CAUTION]
-**Use Official Versions Only**
+> [!CAUTION]
+> **Use Official Versions Only**
 
 To protect yourself from malicious forks, malware, and data theft, please ensure you only obtain TeslaMate from the official source:
 
