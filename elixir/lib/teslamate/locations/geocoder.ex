@@ -4,8 +4,8 @@ defmodule TeslaMate.Locations.Geocoder do
   defp client do
     Tesla.client(
       [
-        {Tesla.Middleware.BaseUrl, "https://nominatim.openstreetmap.org"},
-        {Tesla.Middleware.Headers, [{"user-agent", "TeslaMate/#{TeslaMate.Version.version()}"}]},
+        {Tesla.Middleware.BaseUrl, Application.get_env(:teslamate, :nominatim_api)},
+        {Tesla.Middleware.Headers, [{"user-agent", "TeslaMate/#{@version}"}]},
         Tesla.Middleware.JSON,
         {Tesla.Middleware.Logger, debug: true, level: &log_level/1}
       ],
